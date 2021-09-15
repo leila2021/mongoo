@@ -1,0 +1,142 @@
+Microsoft Windows [version 10.0.19042.1165]
+(c) Microsoft Corporation. Tous droits réservés.
+
+C:\Users\user>mongo
+MongoDB shell version v5.0.2
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("35e396c4-ad88-4fee-b343-bfecea5f991f") }
+MongoDB server version: 5.0.2
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2021-09-02T12:34:41.612+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use contact
+switched to db contact
+> db.createCollection("contactlist")
+{ "ok" : 1 }
+> db.contactlist.inserMany([
+... {"Lastname": "Ben Lahmer"  , "Firstname": "Fares"  , "Email": "fares@gmail.com" , "age":26},
+... {"Lastname": "Kefi",  "Firstname": "Seif",  "Email": "kefi@gmail.com",  "age":15},
+... {"Lastname": "Fatnassi",  "Firstname": "Sarra",  "Email": "sarra.f@gmail.com",  "age":40},
+... {"Lastname": "Ben Yahia",  "Firstname": "Rym",  "age":4},
+... {"Lastname": "Cherif",  "Firstname": "Sami",  "age":3}
+... ])
+uncaught exception: TypeError: db.contactlist.inserMany is not a function :
+@(shell):1:1
+> db.contactlist.insertMany([ {"Lastname": "Ben Lahmer"  , "Firstname": "Fares"  , "Email": "fares@gmail.com" , "age":26}, {"Lastname": "Kefi",  "Firstname": "Seif",  "Email": "kefi@gmail.com",  "age":15}, {"Lastname": "Fatnassi",  "Firstname": "Sarra",  "Email": "sarra.f@gmail.com",  "age":40}, {"Lastname": "Ben Yahia",  "Firstname": "Rym",  "age":4}, {"Lastname": "Cherif",  "Firstname": "Sami",  "age":3} ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6141d78bf40df29314d96414"),
+                ObjectId("6141d78bf40df29314d96415"),
+                ObjectId("6141d78bf40df29314d96416"),
+                ObjectId("6141d78bf40df29314d96417"),
+                ObjectId("6141d78bf40df29314d96418")
+        ]
+}
+> db.contactlist.find()
+{ "_id" : ObjectId("6141d78bf40df29314d96414"), "Lastname" : "Ben Lahmer", "Firstname" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("6141d78bf40df29314d96415"), "Lastname" : "Kefi", "Firstname" : "Seif", "Email" : "kefi@gmail.com", "age" : 15 }
+{ "_id" : ObjectId("6141d78bf40df29314d96416"), "Lastname" : "Fatnassi", "Firstname" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+{ "_id" : ObjectId("6141d78bf40df29314d96417"), "Lastname" : "Ben Yahia", "Firstname" : "Rym", "age" : 4 }
+{ "_id" : ObjectId("6141d78bf40df29314d96418"), "Lastname" : "Cherif", "Firstname" : "Sami", "age" : 3 }
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("6141d78bf40df29314d96414"),
+        "Lastname" : "Ben Lahmer",
+        "Firstname" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("6141d78bf40df29314d96415"),
+        "Lastname" : "Kefi",
+        "Firstname" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("6141d78bf40df29314d96416"),
+        "Lastname" : "Fatnassi",
+        "Firstname" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("6141d78bf40df29314d96417"),
+        "Lastname" : "Ben Yahia",
+        "Firstname" : "Rym",
+        "age" : 4
+}
+{
+        "_id" : ObjectId("6141d78bf40df29314d96418"),
+        "Lastname" : "Cherif",
+        "Firstname" : "Sami",
+        "age" : 3
+}
+> db.contactlist.find({"_id":ObjectId("6141d78bf40df29314d96415")})
+{ "_id" : ObjectId("6141d78bf40df29314d96415"), "Lastname" : "Kefi", "Firstname" : "Seif", "Email" : "kefi@gmail.com", "age" : 15 }
+> db.contactlist.find({age:{$gt:18}})
+{ "_id" : ObjectId("6141d78bf40df29314d96414"), "Lastname" : "Ben Lahmer", "Firstname" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("6141d78bf40df29314d96416"), "Lastname" : "Fatnassi", "Firstname" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+> db.contactlist.find({$and:[{age:{$gt:18}},{name:{$regex:"ah"}}])
+...
+... db.contactlist.find({$and:[{age:{$gt:18}},{lastname:{$regex:"ah"}}])
+... ^C
+
+> db.contactlist.fin({$and:[{age:{$gt:18}},{lastname:{$regex:"ah"}}]})
+uncaught exception: TypeError: db.contactlist.fin is not a function :
+@(shell):1:1
+> db.contactlist.fin({$and:[{age:{$gt:18}},{lastname:{$regex:"ah"}}])
+... ^C
+
+> db.contactlist.find({$and:[{age:{$gt:18}},{Lastname:{$regex:"ah"}}]})
+{ "_id" : ObjectId("6141d78bf40df29314d96414"), "Lastname" : "Ben Lahmer", "Firstname" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+> ({$and:[{age:{$gt:
+...
+... db.contactlist.findAndUpdate({Lastname:"kefi"},{$set:{Firstname:"anis"}})
+... db.contactlist.findAndUpdate({Lastname:"kefi"},{$set:{Firstname:"Anis"}})
+... db.contactlist.findAndUpdate({Lastname:"Kefi"},{$set:{Firstname:"anis"}})
+... db.contactlist.findAndUpdate({Lastname:"kefi"},{$set:{Firstname:"Anis"}})
+...
+...
+>
+> db.contactlist.findOneAndUpdate({Lastname:"kefi"},{$set:{Firstname:"anis"}})
+null
+>
+> db.contactlist.findOneAndUpdate({Lastname:"Kefi"},{$set:{Firstname:"Anis"}})
+{
+        "_id" : ObjectId("6141d78bf40df29314d96415"),
+        "Lastname" : "Kefi",
+        "Firstname" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+> g
+uncaught exception: ReferenceError: g is not defined :
+@(shell):1:1
+>
+>
+>
+> db.contactlist.deleteMany({age:{$lt:5}})
+{ "acknowledged" : true, "deletedCount" : 2 }
+>
